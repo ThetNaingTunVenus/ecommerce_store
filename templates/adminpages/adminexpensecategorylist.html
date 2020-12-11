@@ -1,0 +1,51 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+
+{% block title %}Admin|Category{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Category</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{% url 'ecoapp:expensecategorycreate' %}" class="btn btn-sm btn-outline-secondary"><span data-feather="plus"></span> Create Category </a>
+
+
+                </div>
+            </div>
+<!--end header-->
+
+<div class="container">
+
+
+
+
+    <div class="row col-lg-8 mx-auto mt-3">
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Categry Name</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for pl in allcategory %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{pl.category}}</td>
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

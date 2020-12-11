@@ -1,0 +1,56 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+
+{% block title %}Admin|Category{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Category</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                        <span data-feather="calendar"></span>
+                        This week
+                    </button>
+                </div>
+            </div>
+<!--end header-->
+
+<div class="container">
+    <hr>
+    <h3 class="text-center">Category List</h3>
+    <hr>
+
+    <div class="row col-lg-8 mx-auto mt-3">
+        <a href="{% url 'ecoapp:admincategorycreate' %}" class="text-info">Create New Category</a>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Categry Name</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for pl in allcategory %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{pl.title}}</td>
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

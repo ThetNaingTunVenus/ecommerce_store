@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}All Category{% endblock title %}
+{% block content %}
+
+
+
+<div class="container">
+    <hr>
+        <h3 class="text-center">Items by Category</h3>
+
+    <div class="row mt-4">
+
+
+    {% for cat in allcategories %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+<!--            <th scope="col">#</th>-->
+            <th scope="col" colspan="5">Category Name : {{ cat.title }}</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <th scope="row">SN</th>
+            <th>Image</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        {% for p in cat.product_set.all %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td><img src="{{p.image.url}}" alt="" width="80"></td>
+            <td><a href="{% url 'ecoapp:productdetail' p.slug %}">{{p.title}}</a></td>
+            <td>
+                <ul>
+                    <span><strike>
+                        {% if p.marked_price %}
+            {{p.marked_price}}Ks
+            {% endif %}
+                    </strike></span>
+                    <span>{{p.selling_price}} -Ks</span>
+                </ul>
+
+            </td>
+            <td><a href="{% url 'ecoapp:addtocart' p.id %}" class="btn btn-success">Add to Cart</a></td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endfor %}
+        </div>
+</div>
+
+
+{% endblock %}

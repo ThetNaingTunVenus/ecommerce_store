@@ -1,0 +1,68 @@
+{% extends 'cashier/dashboardcashier.html' %}
+
+
+{% block title %}Cart{% endblock title %}
+{% block content %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Items in Cart:</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'ecoapp:cashiercreateinvoice' %}" class="btn btn-sm btn-outline-secondary"><span data-feather="shopping-cart"></span> Add More Products</a>
+
+        </div>
+      </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for cp in cart.cartproduct_set.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{cp.product.title}}</td>
+                    <td>{{cp.rate}}</td>
+                    <td>{{cp.quantity}}</td>
+                    <td>{{cp.subtotal}}</td>
+                    <td>
+                        <a href="{% url 'ecoapp:cashiermanagecart' cp.id %}?action=inc" class="btn btn-sm btn-outline-success">+</a>
+                        <a href="{% url 'ecoapp:cashiermanagecart' cp.id %}?action=dcr" class="btn btn-sm btn-outline-warning">-</a>
+                        <a href="{% url 'ecoapp:cashiermanagecart' cp.id %}?action=rmv" class="btn btn-sm btn-outline-danger">x</a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="4" class="text-right">Total : </th>
+                    <td>{{cart.total}}</td>
+                    {% if cart.cartproduct_set.all %}
+                    <td><a href="{% url 'ecoapp:cashieremptycart' %}">Empty Cart?</a></td>
+                    {% endif %}
+
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right"></th>
+
+                    {% if cart.cartproduct_set.all %}
+                    <td><a href="{% url 'ecoapp:cashiercheckout' %}" class="btn btn-secondary">Check Out Detail</a></td>
+                    {% endif %}
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

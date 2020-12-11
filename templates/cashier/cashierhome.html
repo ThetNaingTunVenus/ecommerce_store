@@ -1,0 +1,54 @@
+{% extends 'cashier/dashboardcashier.html' %}
+
+
+{% block title %}Cashier|Home{% endblock title %}
+{% block content %}
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Order List</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+
+<div class="container">
+    <div class="row mt-3">
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Customer</th>
+                <th scope="col">OrderID</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Amount</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in pendingorders %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.ordered_by}}</td>
+                <td><a href="{% url 'ecoapp:cashierorderdetail' order.id %}">OrderId-{{order.id}}</a></td>
+                <td>{{order.created_at}}({{order.created_at|timesince}})</td>
+                <td>{{order.total}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

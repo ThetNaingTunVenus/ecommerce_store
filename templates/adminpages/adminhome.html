@@ -1,0 +1,158 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+{% load static %}
+{% block title %}Admin Dashboard{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Admin Dashboard</h1>
+</div>
+<!--end header-->
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/produ.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <h3>{{products}}</h3>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/cus.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer</h5>
+                            <h3>{{customer}}</h3>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/cre.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Credit Order</h5>
+                            <h3>{{creditno}}</h3>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/sc.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Daily Sale</h5>
+                            <h1></h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/rec.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Received Order</h5>
+                            <h3>{{ordering}}</h3>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{% static 'images/cre.png' %}" class="card-img" alt="..." style="margin:5px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Credit Amount</h5>
+                            <h3>{{creditsum}}</h3>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row mt-3">
+        <h3>Credit List</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Invoice No</th>
+                <th scope="col">Date</th>
+                <th scope="col">Amount</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in pendingorders %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.ordered_by}}</td>
+                <td><a href="{% url 'ecoapp:adminorderdetail' order.id %}">Invoice-{{order.id}}</a></td>
+                <td>{{order.created_at}}({{order.created_at|timesince}})</td>
+                <td>{{order.all_total}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

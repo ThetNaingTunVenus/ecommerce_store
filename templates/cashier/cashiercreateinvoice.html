@@ -1,0 +1,66 @@
+{% extends 'cashier/dashboardcashier.html' %}
+{% block title %}Cashier | Create Invoice{% endblock title %}
+{% block content %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <form class="form-inline" action="{% url 'ecoapp:cashieritemsearch' %}" method="get">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search Items" aria-label="Search" name="keyword" required>
+    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'ecoapp:cashiercartview' %}" class="btn btn-outline-secondary"><span data-feather="shopping-cart"></span> View Cart</a>
+
+        </div>
+      </div>
+
+
+<div class="container">
+
+    <div class="row mt-4">
+
+
+    {% for cat in allcategories %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+<!--            <th scope="col">#</th>-->
+            <th scope="col" colspan="5">Category Name : {{ cat.title }}</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <th scope="row">SN</th>
+            <th>Image</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        {% for p in cat.product_set.all %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td><img src="{{p.image.url}}" alt="" width="60"></td>
+            <td><a href="#">{{p.title}}</a></td>
+            <td>
+                <ul>
+                    <span><strike>
+                        {% if p.marked_price %}
+            {{p.marked_price}}Ks
+            {% endif %}
+                    </strike></span>
+                    <span>{{p.selling_price}} -Ks</span>
+                </ul>
+
+            </td>
+            <td><a href="{% url 'ecoapp:cashieraddtocart' p.id %}" class="btn btn-sm btn-outline-secondary">Add to Cart</a></td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endfor %}
+        </div>
+</div>
+
+
+{% endblock %}

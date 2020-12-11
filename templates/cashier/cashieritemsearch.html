@@ -1,0 +1,52 @@
+{% extends 'cashier/dashboardcashier.html' %}
+{% block title %}Cashier | Product Search{% endblock title %}
+{% block content %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <form class="form-inline" action="{% url 'ecoapp:cashieritemsearch' %}" method="get">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search Items" aria-label="Search" name="keyword" required>
+    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'ecoapp:cashiercartview' %}" class="btn btn-outline-secondary"><span data-feather="shopping-cart"></span> View Cart</a>
+
+        </div>
+      </div>
+
+
+<div class="container">
+
+    <div class="row mt-4">
+        <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Sr</th>
+              <th scope="col">Image</th>
+      <th scope="col">Product Name</th>
+
+      <th scope="col">Price</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for cat in results %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+
+        <td><img src="{{cat.image.url}}" alt="" width="60"></td>
+              <td>{{cat.title}}</td>
+      <td>{{cat.selling_price}}</td>
+      <td><a href="{% url 'ecoapp:cashieraddtocart' cat.id %}" class="btn btn-sm btn-outline-secondary">Add to Cart</a></td>
+    </tr>
+       {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+        </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+{% load crispy_forms_tags %}
+{% block title %}Date{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Sale Report</h1>
+
+            </div>
+<!--end header-->
+        <form class="form-inline my-2 my-lg-0" action="{% url 'ecoapp:datefiltersearchview' %}" method="post">
+     {% csrf_token %}
+            {{form|crispy}}
+
+      <input class="btn btn-outline-secondary" type="submit" value="Search">
+
+    </form>
+
+<div class="container">
+
+<!--    {% for i in queryset %}-->
+<!--    {{i.id}}-{{i.created_at}}<br>-->
+
+<!--    {% endfor %}-->
+
+<table class="table table-hover mt-3">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Customer</th>
+                <th scope="col">OrderID</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in queryset %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.ordered_by}}</td>
+                <td><a href="{% url 'ecoapp:adminorderdetail' order.id %}">OrderId-{{order.id}}</a></td>
+                <td>{{order.created_at}}</td>
+                <td>{{order.total}}</td>
+                <td>{{order.ordered_staus}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+</div>
+
+
+{% endblock %}

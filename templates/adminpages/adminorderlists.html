@@ -1,0 +1,53 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+
+{% block title %}Order List{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Order List - by Customer</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{% url 'ecoapp:salelistbycustomercsv' %}" class="btn btn-sm btn-outline-secondary"><span data-feather="arrow-down"></span> Download CSV</a>
+
+                </div>
+            </div>
+<!--end header-->
+
+<div class="container">
+    <div class="row mt-3">
+<!--        <h3>Order List</h3>-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Customer</th>
+                <th scope="col">OrderID</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Tax</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in allorders %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.ordered_by}}</td>
+                <td><a href="{% url 'ecoapp:adminorderdetail' order.id %}">{{order.id}}</a></td>
+                <td>{{order.created_at}}</td>
+                <td>{{order.tax}}</td>
+                <td>{{order.all_total}}</td>
+                <td>{{order.ordered_staus}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

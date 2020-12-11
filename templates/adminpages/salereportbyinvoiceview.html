@@ -1,0 +1,58 @@
+{% extends 'adminpages/dashboardbase.html' %}
+{% block title %}Admin | Report Invoice {% endblock title %}
+{% block content %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Invoice Lists</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'ecoapp:salelistbyinvoicecsvrep' %}" class="btn btn-sm btn-outline-secondary"><span data-feather="arrow-down"></span> Download CSV</a>
+
+        </div>
+      </div>
+
+
+<div class="container">
+
+    <div class="row mt-4">
+
+
+    {% for cat in allcat %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+<!--            <th scope="col">#</th>-->
+            <th scope="col" colspan="5">Invoice : {{ cat.id }} --- ( {{cat.created_at}} )</th>
+<!--            <th scope="col" colspan="">Date: </th>-->
+
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+        <tr>
+            <th scope="row">SN</th>
+            <th>Item Name</th>
+            <th>Rate</th>
+            <th>Quantity</th>
+            <th>Sub Total</th>
+<!--            <th>Tax</th>-->
+<!--            <th>Grand Total</th>-->
+        </tr>
+        {% for p in cat.cartproduct_set.all %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{p.product.title}}</td>
+            <td>{{p.rate}}</td>
+            <td>{{p.quantity}}</td>
+            <td>{{p.subtotal}}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endfor %}
+        </div>
+</div>
+
+
+{% endblock %}

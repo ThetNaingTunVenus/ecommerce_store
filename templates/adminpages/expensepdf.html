@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense PDF</title>
+    <style>
+        @page{
+        size:"A3";
+        margin:2.5cm 1.5cm 3.5cm 1.5cm;
+
+        @top-center{
+        content:"Company Name";
+        }
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+<table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Category</th>
+                <th scope="col">Expense Title</th>
+
+                <th scope="col">Description</th>
+                <th scope="col">Date @</th>
+                <th scope="col">Amount</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for exp in expense %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{exp.category}}</td>
+                <td>{{exp.exp_title}}</td>
+
+                <td>{{exp.description}}</td>
+                <td>{{exp.created_at}}</td>
+                <th>{{exp.amount}}</th>
+
+            </tr>
+
+            {% endfor %}
+             <tr>
+                <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td>Total</td>
+                <th>{{total}}</th>
+            </tr>
+
+            </tbody>
+        </table>
+
+</body>
+</html>

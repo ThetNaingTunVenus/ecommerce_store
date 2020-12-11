@@ -1,0 +1,69 @@
+{% extends 'cashier/dashboardcashier.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Checkout Detail{% endblock title %}
+  {% block content %}
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h3>List of Items</h3>
+            <hr>
+            <a href="{% url 'ecoapp:cashiercartview' %}"> To Update Cart?</a>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for cp in cart.cartproduct_set.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{cp.product.title}}</td>
+                    <td>{{cp.rate}}</td>
+                    <td>{{cp.quantity}}</td>
+                    <td>{{cp.subtotal}}</td>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="4" class="text-right">Amount : </th>
+                    <td>{{cart.total}}</td>
+
+                </tr>
+                <tr>
+                    <th colspan="4" class="text-right">Tax : </th>
+                    <td>{{cart.tax}}</td>
+
+                </tr>
+                <tr>
+                    <th colspan="4" class="text-right">Total : </th>
+                    <td>{{cart.super_total}}</td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3>Customer Profile</h3>
+            <hr>
+            <div class="col-md-8 mx-auto">
+            <form action="" method="post">{% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" value="Place Order" class="btn btn-secondary">
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

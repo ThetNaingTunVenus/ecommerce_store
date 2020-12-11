@@ -1,0 +1,61 @@
+{% extends 'cashier/dashboardcashier.html' %}
+
+
+{% block title %}Admin{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">All Sale-Invoice List</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <a href="{% url 'ecoapp:cashier_sale_invoice_report_csv' %}" class="btn btn-sm btn-outline-secondary">Export CSV</a>
+
+                    </div>
+
+                </div>
+            </div>
+<!--end header-->
+
+<div class="container">
+<!--    <hr>-->
+<!--    <h3 class="text-center">All Sale-Items List</h3>-->
+<!--    <hr>-->
+    <div class="row col-lg-12 mt-3">
+<!--        <a href="{% url 'ecoapp:adminproductasview' %}" class="text-info">Create New Product</a>-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+<!--                <th scope="col">OrderId</th>-->
+                <th scope="col">InviceID</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Tax</th>
+                <th scope="col">Total</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for pl in allinvoice %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+<!--                <td>{{pl.cart.id}}</td>-->
+                <td>#{{pl.cart.id}}</td>
+                <td>{{pl.ordered_by}}</td>
+                <td>{{pl.tax}}</td>
+                <td>{{pl.all_total}}</td>
+                <td>{{pl.ordered_staus}}</td>
+                <td>{{pl.created_at}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

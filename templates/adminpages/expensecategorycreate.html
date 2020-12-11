@@ -1,0 +1,31 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+{% load crispy_forms_tags %}
+{% block title %}Admin|CreateCategory{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Create Category</h1>
+
+            </div>
+<!--end header-->
+
+<div class="container">
+
+    <div class="row mt-3">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        {{form|crispy}}
+                        <input type="submit" class="btn btn-outline-secondary" value="Create Category">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

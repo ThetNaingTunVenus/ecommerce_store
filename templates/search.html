@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+<div class="container">
+<div class=" row mt-3">
+<h3>Search for <span class="text-info">"{{request.GET.keyword}}"</span></h3>
+
+    <div class="col-md-12">
+        <hr>
+        {% for result in results %}
+        <div class="row mx-auto">
+            <div class="col-md-4"><img src="{{result.image.url}}" class="img-fluid" alt="" width="150"></div>
+            <div class="col-md-6">
+                <h4><a href="{% url 'ecoapp:productdetail' result.slug %}">{{result.title}}</a></h4>
+                <p class="text-success">Price : {{result.selling_price}} Ks</p>
+                <a href="{% url 'ecoapp:addtocart' result.id %}" class="btn btn-sm btn-success">Add to Cart</a>
+                <hr>
+                <p>{{result.description|truncatewords:30}}</p>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+
+</div>
+</div>
+{% endblock %}

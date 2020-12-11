@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Profile{% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row mt-4">
+
+        <div class="col-md-4">
+            <h3>Detail Information</h3>
+            <hr>
+            <p><span class="font-weight-bold">Name : </span>{{customer.full_name}}</p>
+            <p><span class="font-weight-bold">Username : </span>{{customer.user.username}}</p>
+            <p><span class="font-weight-bold">Email : </span>{{customer.user.email}}</p>
+<!--            <p><span>Moblie : </span>{{customer.full_name}}</p>-->
+            <p><span class="font-weight-bold">Address : </span>{{customer.address}}</p>
+            <p><span class="font-weight-bold">Joined Date : </span>{{customer.joined_on}}</p>
+
+        </div>
+        <div class="col-md-8">
+            <h3>Order Detail</h3>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">OrderID</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Order on</th>
+                    <th scope="col">Status</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for ord in orders %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><a href="{% url 'ecoapp:customerorderdetail' ord.pk %}">OrderID-{{ord.id}}</a></td>
+                    <td>{{ord.total}}</td>
+                    <td>{{ord.created_at|timesince}} ago</td>
+                    <td>{{ord.ordered_staus}}</td>
+
+
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

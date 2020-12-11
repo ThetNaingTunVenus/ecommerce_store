@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Cart{% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Items in Cart:</h3>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for cp in cart.cartproduct_set.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{cp.product.title}}</td>
+                    <td>{{cp.rate}}</td>
+                    <td>{{cp.quantity}}</td>
+                    <td>{{cp.subtotal}}</td>
+                    <td>
+                        <a href="{% url 'ecoapp:managecart' cp.id %}?action=inc" class="btn btn-sm btn-outline-success">+</a>
+                        <a href="{% url 'ecoapp:managecart' cp.id %}?action=dcr" class="btn btn-sm btn-outline-warning">-</a>
+                        <a href="{% url 'ecoapp:managecart' cp.id %}?action=rmv" class="btn btn-sm btn-outline-danger">x</a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="4" class="text-right">Total : </th>
+                    <td>{{cart.total}}</td>
+                    {% if cart.cartproduct_set.all %}
+                    <td><a href="{% url 'ecoapp:emptycart' %}">Empty Cart?</a></td>
+                    {% endif %}
+
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right"></th>
+
+                    {% if cart.cartproduct_set.all %}
+                    <td><a href="{% url 'ecoapp:checkout' %}" class="btn btn-outline-info">Check Out Detail</a></td>
+                    {% endif %}
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

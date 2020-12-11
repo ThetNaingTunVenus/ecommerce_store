@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+<div class="container">
+        <hr>
+    <h2 class="text-center">Welcome to Our Ecommerence Shop</h2>
+    <hr>
+<div class="row col-md-12 col-md-12 mx-auto">
+
+    {% for p in product_list %}
+    <div class="col-md-3 col-lg-3 mt-5">
+        <h5><a href="{% url 'ecoapp:productdetail' p.slug %}">{{p.title}}</a></h5>
+        <img src="{{p.image.url}}" alt="" width="200">
+        <div class="row">
+        <p class="badge badge-warning">Price : <strike>
+            {% if p.marked_price %}
+            {{p.marked_price}}Ks
+            {% endif %}
+            </strike>
+           {{p.selling_price}}Ks
+
+        </p>
+            </div>
+        <div class="row">
+
+        <a href="{% url 'ecoapp:addtocart' p.id %}" class="btn btn-sm btn-success" onclick="addToCart()">Add to Cart</a>
+        <a href="{% url 'ecoapp:productdetail' p.slug %}" class="btn btn-sm btn-outline-info ml-2">Detail</a>
+            </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+</div>
+
+<script>
+function addToCart() {
+  alert("Successful add to cart item");
+}
+</script>
+
+{% endblock %}

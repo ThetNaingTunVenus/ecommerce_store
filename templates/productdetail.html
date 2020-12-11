@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{product.title}}{% endblock title %}
+  {% block content %}
+<div class="container">
+<!--<h2>Product : {{product.title}}</h2>-->
+<hr>
+<div class="row">
+  <div class="col-md-4">
+    <img src="{{product.image.url}}" alt="">
+    <div class="row">
+      {% for pi in product.productimage_set.all %}
+      <div class="col-md-4 p-3">
+        <img src="{{pi.image.url}}" class="" alt="" width="100px;" height="100px;">
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-md-8">
+    <h4>Product Name : {{product.title}}</h4>
+    <h5>Category : {{product.category}}</h5>
+    <h5>Price : <strike>{{product.marked_price}}Ks</strike> {{product.selling_price}}KS</h5>
+    <a href="{% url 'ecoapp:addtocart' product.id %}" class="btn btn-sm btn-success">Add to Cart</a>
+    <hr>
+    <p class="text-info">Warranty : {{product.warranty}}</p>
+    <hr>
+    <p>{{product.description}}</p>
+    <hr>
+
+
+  </div>
+
+</div>
+</div>
+{% endblock %}

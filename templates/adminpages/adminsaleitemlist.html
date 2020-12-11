@@ -1,0 +1,56 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+
+{% block title %}Admin{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">All Sale-Items List</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <a href="{% url 'ecoapp:sale_item_csv_rep' %}" class="btn btn-sm btn-outline-secondary">Export CSV</a>
+
+                    </div>
+
+                </div>
+            </div>
+<!--end header-->
+
+<div class="container">
+<!--    <hr>-->
+<!--    <h3 class="text-center">All Sale-Items List</h3>-->
+<!--    <hr>-->
+    <div class="row col-lg-12 mt-3">
+<!--        <a href="{% url 'ecoapp:adminproductasview' %}" class="text-info">Create New Product</a>-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">OrderId</th>
+                <th scope="col">Product</th>
+                <th scope="col">rate</th>
+                <th scope="col">quantity</th>
+                <th scope="col">subtotal</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for pl in allproducts %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>#InvoiceID-{{pl.cart.id}}</td>
+                <td>{{pl.product.title}}</td>
+                <td>{{pl.rate}}</td>
+                <td>{{pl.quantity}}</td>
+                <td>{{pl.subtotal}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
