@@ -1,5 +1,5 @@
 {% extends 'cashier/dashboardcashier.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block title %}Admin{% endblock title %}
 {% block content %}
@@ -17,16 +17,20 @@
 <!--end header-->
 
 <div class="container">
-<!--    <hr>-->
-<!--    <h3 class="text-center">All Sale-Items List</h3>-->
-<!--    <hr>-->
+
     <div class="row col-lg-12 mt-3">
-<!--        <a href="{% url 'ecoapp:adminproductasview' %}" class="text-info">Create New Product</a>-->
+        <form class="form-inline my-2 my-lg-0" action="{% url 'ecoapp:cashiersaleinvoicereport' %}" method="post">
+     {% csrf_token %}
+            {{form|crispy}}
+
+      <input class="btn btn-outline-secondary" type="submit" value="Search">
+
+    </form>
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">SN</th>
-<!--                <th scope="col">OrderId</th>-->
+
                 <th scope="col">InviceID</th>
                 <th scope="col">Customer Name</th>
                 <th scope="col">Tax</th>
@@ -51,6 +55,12 @@
                 <td>{{pl.created_at}}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <th colspan="3" class="text-right">Total</th>
+                <th>{{taxtxt}}</th>
+                <th>{{sum_amt}}</th>
+            </tr>
+
 
             </tbody>
         </table>

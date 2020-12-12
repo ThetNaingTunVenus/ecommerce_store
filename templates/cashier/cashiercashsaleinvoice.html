@@ -1,27 +1,33 @@
 {% extends 'cashier/dashboardcashier.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block title %}Cashier|Home{% endblock title %}
 {% block content %}
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Sale Invoice (Cash)</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
+<!--        <div class="btn-toolbar mb-2 mb-md-0">-->
+<!--          <div class="btn-group mr-2">-->
+<!--            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
+<!--            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>-->
+<!--          </div>-->
+<!--          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
+<!--            <span data-feather="calendar"></span>-->
+<!--            This week-->
+<!--          </button>-->
+<!--        </div>-->
       </div>
 
 
 <div class="container">
     <div class="row mt-3">
+<form class="form-inline my-2 my-lg-0" action="{% url 'ecoapp:cashiercashsaleinvoice' %}" method="post">
+     {% csrf_token %}
+            {{form|crispy}}
 
+      <input class="btn btn-outline-secondary" type="submit" value="Search">
+
+    </form>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -30,7 +36,7 @@
                 <th scope="col">OrderID</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Amount</th>
-                <th></th>
+                <th>Generate Invoice</th>
 
             </tr>
             </thead>
@@ -42,11 +48,14 @@
                 <td>{{order.ordered_by}}</td>
                 <td><a href="#">Invoice-{{order.id}}</a></td>
                 <td>{{order.created_at}}({{order.created_at|timesince}})</td>
-                <td>{{order.total}}</td>
+                <td>{{order.all_total}}</td>
                 <td><a href="{% url 'ecoapp:test_pdf' order.id %}" target="_blank" class="btn btn-sm btn-primary">invoice</a></td>
             </tr>
             {% endfor %}
-
+            <tr>
+                <th colspan="4" class="text-right">Total</th>
+                <th>{{sum_amt}}</th>
+            </tr>
             </tbody>
         </table>
 

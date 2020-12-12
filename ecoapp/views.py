@@ -703,22 +703,86 @@ class CashierReceiveOrderView(CashierRequiredMixin,TemplateView):
         contex['pendingorders'] = Order.objects.filter(ordered_staus="Accept")
         return contex
 
-class CashierCashSaleInvoiceView(CashierRequiredMixin,TemplateView):
-    template_name = 'cashier/cashiercashsaleinvoice.html'
-
-    def get_context_data(self, **kwargs):
-        contex = super().get_context_data(**kwargs)
-        contex['pendingorders'] = Order.objects.filter(ordered_staus="Cash").order_by('-id')
-        return contex
 
 
-class CashierCreditSaleInvoiceView(CashierRequiredMixin,TemplateView):
-    template_name = 'cashier/cashiercreditsaleinvoice.html'
+#cashier sale invoice view
+class CashierCashSaleInvoiceView(CashierRequiredMixin,View):
+    def get(self,request):
+        form = StockHistorySearchForm()
+        queryset = Order.objects.filter(ordered_staus="Cash").order_by('-id')
+        sum = queryset.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+        context = {
+            'form': form,
+            'pendingorders': queryset,
+            'sum_amt': sum_amt,
+        }
+        return render(request, 'cashier/cashiercashsaleinvoice.html', context)
 
-    def get_context_data(self, **kwargs):
-        contex = super().get_context_data(**kwargs)
-        contex['pendingorders'] = Order.objects.filter(ordered_staus="Credit").order_by('-id')
-        return contex
+    def post(self, request):
+        form = StockHistorySearchForm(request.POST)
+        queryset = Order.objects.filter(created_at__range=[form['start_date'].value(), form['end_date'].value()])
+        sum = queryset.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+
+        # tax_total = queryset.aggregate(Sum('tax'))
+        # taxtxt = tax_total['tax__sum']
+
+        context = {
+            'form': form,
+            'pendingorders': queryset,
+            'sum_amt' : sum_amt,
+            # 'taxtxt':taxtxt,
+        }
+        # print(sum_amt)
+        return render(request, 'cashier/cashiercashsaleinvoice.html', context)
+
+
+
+#cashier sale credit view
+class CashierCreditSaleInvoiceView(CashierRequiredMixin,View):
+    def get(self,request):
+        form = StockHistorySearchForm()
+        queryset = Order.objects.filter(ordered_staus="Credit").order_by('-id')
+        sum = queryset.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+        context = {
+            'form': form,
+            'pendingorders': queryset,
+            'sum_amt': sum_amt,
+        }
+        return render(request, 'cashier/cashiercreditsaleinvoice.html', context)
+
+    def post(self, request):
+        form = StockHistorySearchForm(request.POST)
+        queryset = Order.objects.filter(created_at__range=[form['start_date'].value(), form['end_date'].value()])
+        sum = queryset.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+
+        # tax_total = queryset.aggregate(Sum('tax'))
+        # taxtxt = tax_total['tax__sum']
+
+        context = {
+            'form': form,
+            'pendingorders': queryset,
+            'sum_amt' : sum_amt,
+            # 'taxtxt':taxtxt,
+        }
+        # print(sum_amt)
+        return render(request, 'cashier/cashiercreditsaleinvoice.html', context)
+
+
+
+
+
+#
+# class CashierCreditSaleInvoiceView(CashierRequiredMixin,TemplateView):
+#     template_name = 'cashier/cashiercreditsaleinvoice.html'
+#
+#     def get_context_data(self, **kwargs):
+#         contex = super().get_context_data(**kwargs)
+#         contex['pendingorders'] = Order.objects.filter(ordered_staus="Credit").order_by('-id')
+#         return contex
 
 
 
@@ -762,11 +826,40 @@ class CashierSaleItemListView(CashierRequiredMixin, ListView):
     context_object_name = 'allproducts'
 
 
-class CashierSaleInvoiceReportView(CashierRequiredMixin, ListView):
-    template_name = 'cashier/cashiersaleinvoicereport.html'
-    queryset = Order.objects.all().order_by('-id')
-    context_object_name = 'allinvoice'
 
+#cashier sale invoice report
+class CashierSaleInvoiceReportView(CashierRequiredMixin,View):
+    def get(self,request):
+        form = StockHistorySearchForm()
+        queryset = Order.objects.all()
+        context = {
+            'form': form,
+            'allinvoice': queryset
+        }
+        return render(request, 'cashier/cashiersaleinvoicereport.html', context)
+
+    def post(self, request):
+        form = StockHistorySearchForm(request.POST)
+        queryset = Order.objects.filter(created_at__range=[form['start_date'].value(), form['end_date'].value()])
+        sum = queryset.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+
+        tax_total = queryset.aggregate(Sum('tax'))
+        taxtxt = tax_total['tax__sum']
+
+        context = {
+            'form': form,
+            'allinvoice': queryset,
+            'sum_amt' : sum_amt,
+            'taxtxt':taxtxt,
+        }
+        # print(sum_amt)
+        return render(request, 'cashier/cashiersaleinvoicereport.html', context)
+
+
+        # sum = credit_num.aggregate(Sum('all_total'))
+        # sum_amt = sum['all_total__sum']
+        # contex['creditsum'] = sum_amt
 
 
 class CashierCreateInvoiceView(CashierRequiredMixin,TemplateView):
