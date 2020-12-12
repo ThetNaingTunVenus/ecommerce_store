@@ -1,0 +1,62 @@
+{% extends 'adminpages/dashboardbase.html' %}
+
+{% load crispy_forms_tags %}
+{% block title %}Tax Report{% endblock title %}
+{% block content %}
+<!--header-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Tax Report</h1>
+
+            </div>
+<!--end header-->
+        <form class="form-inline my-2 my-lg-0" action="{% url 'ecoapp:admintaxreport' %}" method="post">
+     {% csrf_token %}
+            {{form|crispy}}
+
+      <input class="btn btn-outline-secondary" type="submit" value="Search">
+
+    </form>
+
+<div class="container">
+
+<!--    {% for i in queryset %}-->
+<!--    {{i.id}}-{{i.created_at}}<br>-->
+
+<!--    {% endfor %}-->
+
+<table class="table table-hover mt-3">
+            <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Invoice</th>
+
+                <th scope="col">Date</th>
+                <th scope="col">Tax Amount</th>
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for tax in tax_list %}
+            <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>Invoice-{{tax.cart.id}}</td>
+
+                <td>{{tax.created_at}}</td>
+                <td>{{tax.tax}}</td>
+
+            </tr>
+            {% endfor %}
+            <tr>
+                <th colspan="3" class="text-right">Total</th>
+                <td>{{sum_tax}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+</div>
+
+
+{% endblock %}

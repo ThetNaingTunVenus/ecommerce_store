@@ -425,7 +425,12 @@ class AdminCreditSaleView(AdminRequiredMixin,TemplateView):
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
+        credit_num = Order.objects.filter(ordered_staus="Credit")
         contex['pendingorders'] = Order.objects.filter(ordered_staus="Credit")
+
+        sum = credit_num.aggregate(Sum('all_total'))
+        sum_amt = sum['all_total__sum']
+        contex['creditsum'] = sum_amt
         return contex
 
 
@@ -643,6 +648,40 @@ class SaleReportbyInvoiceView(AdminRequiredMixin,TemplateView):
         context = super().get_context_data(**kwargs)
         context['allcat'] = Cart.objects.all().order_by('-id')
         return context
+
+
+
+#cashier sale invoice view
+class AdminTaxReportView(AdminRequiredMixin,View):
+    def get(self,request):
+        form = StockHistorySearchForm()
+        queryset = Order.objects.all()
+        sum = queryset.aggregate(Sum('tax'))
+        sum_tax = sum['tax__sum']
+        context = {
+            'form': form,
+            'tax_list': queryset,
+            'sum_tax': sum_tax,
+        }
+        return render(request, 'adminpages/admintaxreport.html', context)
+
+    def post(self, request):
+        form = StockHistorySearchForm(request.POST)
+        queryset = Order.objects.filter(created_at__range=[form['start_date'].value(), form['end_date'].value()])
+        sum = queryset.aggregate(Sum('tax'))
+        sum_tax = sum['tax__sum']
+
+        # tax_total = queryset.aggregate(Sum('tax'))
+        # taxtxt = tax_total['tax__sum']
+
+        context = {
+            'form': form,
+            'tax_list': queryset,
+            'sum_tax' : sum_tax,
+            # 'taxtxt':taxtxt,
+        }
+        # print(sum_amt)
+        return render(request, 'adminpages/admintaxreport.html', context)
 
 
 

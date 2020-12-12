@@ -46,6 +46,7 @@ urlpatterns = [
     path('admin/credit/salelist/cav', credit_sale_list_csv_rep, name='creditsalelistcsv'),
     path('admin/salelist/bycustomer', sale_list_by_customer_csv_rep, name='salelistbycustomercsv'),
     path('admin/salereport/byinvoice', SaleReportbyInvoiceView.as_view(), name='salereportbyinvoiceview'),
+    path('admin/tax-report/', AdminTaxReportView.as_view(), name='admintaxreport'),
 
     path('admin-category/lists/', AdminCategoryListView.as_view(), name = 'admincategorylist'),
     path('admin-category/create/', AdminCategoryCreateView.as_view(), name = 'admincategorycreate'),

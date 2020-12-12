@@ -33,11 +33,15 @@
 
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{order.ordered_by}}</td>
-                <td><a href="{% url 'ecoapp:adminorderdetail' order.id %}">OrderId-{{order.id}}</a></td>
+                <td><a href="{% url 'ecoapp:adminorderdetail' order.id %}">Invoice-{{order.id}}</a></td>
                 <td>{{order.created_at}}({{order.created_at|timesince}})</td>
-                <td>{{order.total}}</td>
+                <td>{{order.all_total}}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="4" class="text-right">Total</td>
+                <td>{{creditsum}}</td>
+            </tr>
 
             </tbody>
         </table>
