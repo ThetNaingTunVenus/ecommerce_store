@@ -14,7 +14,7 @@ class CustomerRegistrationForm(forms.ModelForm):
     email = forms.CharField(widget=forms.EmailInput)
     class Meta:
         model = Customer
-        fields = ['username', 'password','email' ,'full_name', 'address']
+        fields = ['username','email', 'password','full_name', 'address']
 
     def clean_username(self):
         uname = self.cleaned_data.get('username')
